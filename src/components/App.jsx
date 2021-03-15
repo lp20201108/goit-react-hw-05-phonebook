@@ -97,7 +97,7 @@ export default class App extends Component {
           <h1 className="titlePhonebook">Phonebook</h1>
           <ContactForm addContact={this.addContact} />
           <h2 className="title">Contacts</h2>
-          {/* <Filter filter={this.state.filter} handleChange={this.handleChange} /> */}
+          <Filter />
           {/* <ContactsList
             visibleContacts={visibleContacts}
             handleRemove={this.handleRemove}

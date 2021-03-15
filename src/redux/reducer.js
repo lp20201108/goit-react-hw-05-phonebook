@@ -49,7 +49,7 @@ const items = (state = [], { type, payload }) => {
 const filter = (state = "", { type, payload }) => {
   switch (type) {
     case FILTER_CONTACT:
-      return payload.filter;
+      return payload;
 
     default:
       return state;
