@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Filter.module.css";
 import { connect } from "react-redux";
-import { FILTER_CONTACT } from "../../redux/constants";
+import { changeFilter } from "../../redux/actions";
 
 const Filter = ({ filter, handleChange }) => {
   return (
@@ -30,7 +30,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleChange: (event) => dispatch(FILTER_CONTACT(event.target.value)),
+  handleChange: (event) => dispatch(changeFilter(event.target.value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);

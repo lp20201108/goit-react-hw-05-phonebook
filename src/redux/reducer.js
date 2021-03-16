@@ -11,32 +11,7 @@ import { ADD_CONTACT, FILTER_CONTACT, REMOVE_CONTACT } from "./constants";
 const items = (state = [], { type, payload }) => {
   switch (type) {
     case ADD_CONTACT:
-      const oldContactName = state.find(
-        (contact) => contact.name === payload.name
-      );
-
-      const oldContactNumber = state.find(
-        (contact) => contact.number === payload.number
-      );
-
-      if (oldContactName) {
-        alert(
-          `This contact NAME already exists
-         as Name:${oldContactName.name} Tel:${oldContactName.number}`
-        );
-        return;
-      } else if (oldContactNumber) {
-        alert(
-          `This contact NUMBER already exists as 
-         Tel:${oldContactNumber.number} Name:${oldContactNumber.name}`
-        );
-        return;
-      } else if (!payload.name.length) {
-        alert("Please, enter the contact name");
-      } else if (!payload.number.length) {
-        alert("Please, enter the contact number");
-      } else return [...state, payload];
-      break;
+      return [...state, payload];
 
     case REMOVE_CONTACT:
       return state.filter((item) => item.id !== payload);

@@ -1,11 +1,11 @@
 import { ADD_CONTACT, REMOVE_CONTACT, FILTER_CONTACT } from "./constants";
 import { v4 as uuidv4 } from "uuid";
-const addNewContact = (name, number) => ({
+
+const addContact = (contact) => ({
   type: ADD_CONTACT,
   payload: {
     id: uuidv4(),
-    name,
-    number,
+    ...contact,
   },
 });
 
@@ -19,4 +19,4 @@ const changeFilter = (filter) => ({
   payload: filter,
 });
 
-export { addNewContact, removeContact, changeFilter };
+export { addContact, removeContact, changeFilter };

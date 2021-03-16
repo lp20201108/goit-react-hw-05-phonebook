@@ -1,109 +1,42 @@
 import React, { Component } from "react";
-import { uuid } from "uuidv4";
+import { connect } from "react-redux";
 import ContactForm from "./ContactForm";
 import ContactsList from "./ContactsList";
 import Filter from "./Filter/Filter";
 import styles from "./App.module.css";
 
-export default class App extends Component {
-  // state = {
-  //   contacts: [
-  //     { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
-  //     { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
-  //     { id: "id-3", name: "Eden Clements", number: "645-17-79" },
-  //     { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
-  //   ],
-  //   filter: "",
-  // };
-
-  // componentDidMount() {
-  //   const contacts = localStorage.getItem("contacts");
-  //   const parsedContacts = JSON.parse(contacts);
-  //   // console.log(parsedContacts);
-  //   if (parsedContacts) {
-  //     this.setState({ contacts: parsedContacts });
-  //   }
-  // }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.state.contacts !== prevState.contacts) {
-  //     localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
-  //   }
-  // }
-
-  // addContact = (name, number) => {
-  //   const contact = {
-  //     id: uuid(),
-  //     name,
-  //     number,
-  //   };
-
-  //   const oldContactName = this.state.contacts.find(
-  //     (contact) => contact.name === name
-  //   );
-
-  //   const oldContactNumber = this.state.contacts.find(
-  //     (contact) => contact.number === number
-  //   );
-
-  //   if (oldContactName) {
-  //     alert(
-  //       `This contact NAME already exists as Name:${oldContactName.name} Tel:${oldContactName.number}`
-  //     );
-  //     return;
-  //   } else if (oldContactNumber) {
-  //     alert(
-  //       `This contact NUMBER already exists as  Tel:${oldContactNumber.number} Name:${oldContactNumber.name}`
-  //     );
-  //     return;
-  //   } else if (!name.length) {
-  //     alert("Please, enter the contact name");
-  //   } else if (!number.length) {
-  //     alert("Please, enter the contact number");
-  //   } else {
-  //     this.setState((prevState) => ({
-  //       contacts: [...prevState.contacts, contact],
-  //     }));
-  //   }
-  // };
-
-  // handleRemove = (id) => {
-  //   this.setState((prevState) => {
-  //     const contacts = prevState.contacts.filter((item) => item.id !== id);
-  //     return {
-  //       contacts,
-  //     };
-  //   });
-  // };
-
-  handleChange = (event) => {
-    const name = event.target.name;
-    this.setState({ [name]: event.target.value });
-  };
-
-  getFilteredContacts(contacts, filterStr) {
-    return contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(filterStr.toLowerCase())
-    );
-  }
-
+class App extends Component {
   render() {
-    // const { contacts, filter } = this.state;
-    // const visibleContacts = this.getFilteredContacts(contacts, filter);
-
     return (
       <>
         <div className={styles.container}>
           <h1 className="titlePhonebook">Phonebook</h1>
-          <ContactForm addContact={this.addContact} />
+          <ContactForm />
           <h2 className="title">Contacts</h2>
           <Filter />
-          {/* <ContactsList
-            visibleContacts={visibleContacts}
-            handleRemove={this.handleRemove}
-          /> */}
+          <ContactsList visibleContacts={this.props.contacts} />
         </div>
       </>
     );
   }
 }
+
+const getFilteredContacts = (contacts, filter) => {
+  const normalizedFilter = filter.toLowerCase();
+  return contacts.filter((item) =>
+    item.name.toLowerCase().includes(normalizedFilter)
+  );
+};
+
+const mapStateToProps = (state) => {
+  const { filter, items } = state.contacts;
+  console.log(filter, items);
+  const visibleContacts = getFilteredContacts(items, filter);
+  return {
+    contacts: visibleContacts,
+    filter,
+    isContactIncludes: !!items.length,
+  };
+};
+
+export default connect(mapStateToProps)(App);
